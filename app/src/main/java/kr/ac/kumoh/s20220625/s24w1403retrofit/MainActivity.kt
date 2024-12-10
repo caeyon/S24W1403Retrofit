@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -13,35 +14,47 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import kr.ac.kumoh.s20220625.s24w1403retrofit.ui.theme.S24W1403RetrofitTheme
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             S24W1403RetrofitTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                MainScreen()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun MainScreen(viewModel: SongVIewModel = viewModel()) { //viewModel()에 오류날 시에 viewModel() 다시 쓰고 3번째 선택
+    val songList by viewModel.songList.observeAsState(emptyList())
+    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+        SongResult(
+            list = songList,
+            modifier = Modifier.padding(innerPadding)
+        )
+    }
 }
+
+@Composable
+fun SongResult(list: List<Song>, modifier: Modifier) {
+    Column(
+        modifier,
+    ) {
+        Text(list.toString())
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     S24W1403RetrofitTheme {
-        Greeting("Android")
+        MainScreen()
     }
 }
