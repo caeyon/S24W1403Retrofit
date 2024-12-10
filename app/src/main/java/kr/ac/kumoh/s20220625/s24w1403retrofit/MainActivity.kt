@@ -31,8 +31,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen(viewModel: SongVIewModel = viewModel()) { //viewModel()에 오류날 시에 viewModel() 다시 쓰고 3번째 선택
+fun MainScreen(viewModel: SongViewModel = viewModel()) { //viewModel()에 오류날 시에 viewModel() 다시 쓰고 3번째 선택
     val songList by viewModel.songList.observeAsState(emptyList())
+
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         SongResult(
             list = songList,
@@ -44,17 +45,8 @@ fun MainScreen(viewModel: SongVIewModel = viewModel()) { //viewModel()에 오류
 @Composable
 fun SongResult(list: List<Song>, modifier: Modifier) {
     Column(
-        modifier,
+        modifier
     ) {
         Text(list.toString())
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    S24W1403RetrofitTheme {
-        MainScreen()
     }
 }

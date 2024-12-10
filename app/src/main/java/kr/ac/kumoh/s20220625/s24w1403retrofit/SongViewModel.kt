@@ -9,20 +9,20 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SongVIewModel : ViewModel() {
+class SongViewModel : ViewModel() {
     private val songApi: SongApi
     private val _songList = MutableLiveData<List<Song>>()
     val songList: LiveData<List<Song>>
         get() = _songList
 
-    init {
+    init { //처음에 ViewModel 생길 때 실행됨
         val retrofit = Retrofit.Builder()
             .baseUrl(SongApiConfig.SERVER_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         songApi = retrofit.create(SongApi::class.java)
-        fetchData()
+        fetchData() //서버의 데이터 가져오는 함수
     }
 
     private fun fetchData() {
