@@ -30,6 +30,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -64,7 +66,7 @@ fun MainScreen(viewModel: SongViewModel = viewModel()) { //viewModel()에 오류
 @Composable
 fun SongList(list: List<Song>, modifier: Modifier) {
     LazyColumn(
-        modifier,
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(horizontal = 8.dp)
     ) {
@@ -82,31 +84,36 @@ fun SongList(list: List<Song>, modifier: Modifier) {
 
 @Composable
 fun SongItem(song: Song) {
-    Row (
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min)
-            .background(Color(255, 210, 210))
-            .padding(8.dp)
+    Card (
+        elevation = CardDefaults.cardElevation(8.dp)
     ) {
-        AsyncImage(
-            model = "https://picsum.photos/300/300?random=${song.singer}",
-            contentDescription = "가수 이미지 ${song.singer}",
-            contentScale = ContentScale.Crop,
+        Row(
             modifier = Modifier
-                .size(100.dp)
-                .clip(CircleShape),
-        )
-        Spacer(modifier = Modifier.width(10.dp))
-        Column (
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
+                //.background(Color(255, 210, 210))
+                .padding(8.dp)
         ) {
-            TextTitle(song.title)
-            TextSinger(song.singer)
+            AsyncImage(
+                model = "https://picsum.photos/300/300?random=${song.singer}",
+                contentDescription = "가수 이미지 ${song.singer}",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(CircleShape),
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceAround
+            ) {
+                TextTitle(song.title)
+                TextSinger(song.singer)
+            }
         }
-    }
+}
+
 
 }
 
